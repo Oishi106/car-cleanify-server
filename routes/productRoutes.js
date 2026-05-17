@@ -7,7 +7,7 @@ const { protect, adminOnly } = require('../middleware/auth');
 
 router.route('/')
   .get(getProducts)
-  .post(protect, adminOnly, createProduct);
+  .post(protect, adminOnly, createProduct);                         
 
 router.route('/:id')
   .get(getProduct)
@@ -16,4 +16,4 @@ router.route('/:id')
 
 router.post('/:id/reviews', protect, addReview);
 
-module.exports = router;
+module.exports = router;                     
