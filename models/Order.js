@@ -17,10 +17,10 @@ const orderSchema = new mongoose.Schema(
       },           
     ],
     shippingAddress: {
-      fullName: { type: String, required: true },
+      fullName: { type: String, required: true },                                
       phone: { type: String, required: true },
       street: { type: String, required: true },
-      city: { type: String, required: true },
+      city: { type: String, required: true },             
       state: String,
       zipCode: String,
       country: { type: String, default: 'Bangladesh' },
