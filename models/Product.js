@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Product name is required'],
+      required: [true, 'Service name is required'],
       trim: true,
     },
     slug: {
@@ -38,27 +38,31 @@ const productSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
-      required: true,
+      required: true,        // ✅ রাখো — category filter কাজে লাগবে
     },
-    images: [
-      {
-        url: { type: String, required: true },
-        alt: String,
-      },
-    ],
-    stock: {
-      type: Number,
-      required: true,
-      default: 0,
-      min: 0,
+
+    // ✅ Car cleaning এর জন্য নতুন fields
+    duration: {
+      type: String,          // "30 mins", "2 hours", "Monthly"
+      required: [true, 'Service duration is required'],
     },
-    sku: {
+    features: {
+      type: [String],        // ["Foam Wash", "Tire Cleaning", ...]
+      default: [],
+    },
+    popular: {
+      type: Boolean,
+      default: false,
+    },
+
+    // ✅ Single image (তোমার JSON অনুযায়ী)
+    image: {
       type: String,
-      unique: true,
-      sparse: true,
+      default: '',
     },
-    brand: String,
-    tags: [String],
+
+    tags: [String],          // ✅ রাখো — search/filter এ কাজে লাগবে
+
     reviews: [reviewSchema],
     rating: {
       type: Number,
@@ -70,11 +74,11 @@ const productSchema = new mongoose.Schema(
     },
     isFeatured: {
       type: Boolean,
-      default: false,
+      default: false,        // ✅ রাখো — homepage featured section
     },
     isActive: {
       type: Boolean,
-      default: true,
+      default: true,         // ✅ রাখো — service hide/show control
     },
   },
   { timestamps: true }
@@ -91,14 +95,14 @@ productSchema.pre('save', function (next) {
   next();
 });
 
-// Rating আপডেট করা review add/update হলে
+// Rating update method
 productSchema.methods.updateRating = function () {
   if (this.reviews.length === 0) {
     this.rating = 0;
     this.numReviews = 0;
   } else {
     const total = this.reviews.reduce((acc, r) => acc + r.rating, 0);
-    this.rating = (total / this.reviews.length).toFixed(1);
+    this.rating = parseFloat((total / this.reviews.length).toFixed(1));
     this.numReviews = this.reviews.length;
   }
 };
