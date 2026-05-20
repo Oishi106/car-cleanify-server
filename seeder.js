@@ -545,34 +545,18 @@ const importData = async () => {
     await Product.insertMany(servicesWithCategory);
     console.log(`✅ ${services.length} services inserted`);
 
-    // Shop products আলাদা collection এ
-await ShopProduct.deleteMany();
-const shopProductsWithCategory = shopProducts.map((p) => {
-  const { categoryName, ...rest } = p;
-  return {
-    ...rest,
-    category: catMap[categoryName],
-    isActive: true,
-    slug: p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
-  };
-});
-await ShopProduct.insertMany(shopProductsWithCategory);
-console.log(`✅ ${shopProducts.length} shop products inserted`);
-
-    // Shop products insert
-    const productShopProductsWithCategory = shopProducts.map((p) => {
+    // Shop products go only to the ShopProduct collection
+    await ShopProduct.deleteMany();
+    const shopProductsWithCategory = shopProducts.map((p) => {
       const { categoryName, ...rest } = p;
       return {
         ...rest,
         category: catMap[categoryName],
         isActive: true,
-        popular: false,
-        duration: 'N/A',
-        features: [],
         slug: p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
       };
     });
-    await Product.insertMany(productShopProductsWithCategory);
+    await ShopProduct.insertMany(shopProductsWithCategory);
     console.log(`✅ ${shopProducts.length} shop products inserted`);
 
     console.log('\n🎉 Database seeded successfully!');
