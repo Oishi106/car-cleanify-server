@@ -550,7 +550,7 @@ const importData = async () => {
     const shopProductsWithCategory = shopProducts.map((p) => {
       const { categoryName, ...rest } = p;
       return {
-        ...rest,
+        ...rest,                            
         category: catMap[categoryName],
         isActive: true,
         slug: p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
