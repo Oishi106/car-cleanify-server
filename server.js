@@ -20,7 +20,10 @@ dotenv.config();
 connectDB();
 
 const app = express();
+const shopRoutes = require('./routes/shopRoutes');
 
+// Routes এর মধ্যে যোগ করো
+app.use('/api/shop', shopRoutes);
 // ──────────────────────────────
 // Middleware
 // ──────────────────────────────
