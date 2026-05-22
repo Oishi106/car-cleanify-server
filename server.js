@@ -22,9 +22,9 @@ connectDB();
 const app = express();
 const shopRoutes = require('./routes/shopRoutes');
 
-// Routes এর মধ্যে যোগ করো
+// Routes এর মধ্যে যোগ করো              
 app.use('/api/shop', shopRoutes);
-// ──────────────────────────────
+// ──────────────────────────────                
 // Middleware
 // ──────────────────────────────
 
@@ -36,7 +36,7 @@ app.use(cors({
 
 // Body parser
 app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));                            
 
 // Logger (development only)
 if (process.env.NODE_ENV === 'development') {
@@ -48,9 +48,9 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100,
   message: { success: false, message: 'Too many requests, please try again later.' },
-});
+});                             
 app.use('/api', limiter);
-
+                     
 // ──────────────────────────────
 // Routes
 // ──────────────────────────────
